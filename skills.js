@@ -263,8 +263,7 @@
       gen() {
         const h = R(1, 12), m = R(0, 11) * 5;
         const ans = fmtTime(h, m);
-        const others = [fmtTime((h % 12) + 1, m), fmtTime(h, (m + 30) % 60), fmtTime(h === 1 ? 12 : h - 1, m), fmtTime(...addMinutes(h, m, 5)), fmtTime(...addMinutes(h, m, -5))];
-        return { text: "What time is it?", svg: clockSvg(h, m), answer: ans, choices: uniqChoices(ans, others), key: m === 0 ? "o'clock" : `:${pad(m)}`,
+        return { text: "What time is it?", svg: clockSvg(h, m), answer: ans, format: "time", key: m === 0 ? "o'clock" : `:${pad(m)}`,
           hint: `The short hand shows the hour. The long hand: count by 5s from the 12.` };
       },
     },
@@ -390,7 +389,7 @@
         const n = R(101, 999);
         const to = pick([10, 100]);
         const ans = Math.round(n / to) * to;
-        return { text: `Round ${n} to the nearest ${to}.`, answer: String(ans), choices: uniqChoices(ans, [ans + to, ans - to, Math.floor(n / to) * to, Math.ceil(n / to) * to]), key: `nearest${to}`,
+        return { text: `Round ${n} to the nearest ${to}.`, answer: String(ans), key: `nearest${to}`,
           hint: `Look at the ${to === 10 ? "ones" : "tens"} digit. 5 or more rounds up, 4 or less rounds down.` };
       },
     },
@@ -455,13 +454,12 @@
         if (Math.random() < 0.4) {
           const h = R(1, 12), m = R(0, 59);
           const ans = fmtTime(h, m);
-          return { text: "What time is it?", svg: clockSvg(h, m), answer: ans, choices: uniqChoices(ans, [fmtTime(...addMinutes(h, m, 1)), fmtTime(...addMinutes(h, m, -1)), fmtTime(...addMinutes(h, m, 60)), fmtTime(...addMinutes(h, m, 5))]), key: "read-minute",
+          return { text: "What time is it?", svg: clockSvg(h, m), answer: ans, format: "time", key: "read-minute",
             hint: `Long hand: count by 5s to the last big number, then count the little lines.` };
         }
         const h = R(1, 11), m = R(0, 11) * 5, dur = R(2, 18) * 5;
         const ans = fmtTime(...addMinutes(h, m, dur));
-        return { text: `A game starts at ${fmtTime(h, m)} and lasts ${dur} minutes. When does it end?`, answer: ans,
-          choices: uniqChoices(ans, [fmtTime(...addMinutes(h, m, dur + 10)), fmtTime(...addMinutes(h, m, dur - 10)), fmtTime(...addMinutes(h, m, dur + 60)), fmtTime(...addMinutes(h, m, dur - 5))]), key: "elapsed",
+        return { text: `A game starts at ${fmtTime(h, m)} and lasts ${dur} minutes. When does it end?`, answer: ans, format: "time", key: "elapsed",
           hint: `Jump to the next hour first, then add the minutes that are left.` };
       },
     },

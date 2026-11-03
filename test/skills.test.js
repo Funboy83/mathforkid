@@ -18,6 +18,8 @@ for (const s of skills) {
       if (!q.choices.includes(q.answer)) problems.push("answer not in choices");
       if (new Set(q.choices).size !== q.choices.length) problems.push("duplicate choices");
       if (q.choices.length < 2) problems.push("too few choices");
+    } else if (q.format === "time") {
+      if (!/^(1[0-2]|[1-9]):[0-5]\d$/.test(q.answer)) problems.push(`bad time answer: ${q.answer}`);
     } else if (!/^\d+$/.test(q.answer)) {
       problems.push(`keypad answer is not a whole number: ${q.answer}`);
     }
